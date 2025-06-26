@@ -82,8 +82,12 @@ function enterEditingSourceMode( editor ) {
 
 	for ( const [ , viewWrapper ] of sourceEditing._replacedRoots ) {
 		const textarea = viewWrapper.childNodes[ 0 ];
-		const cmEditor = global.window.CodeMirror.fromTextArea( textarea, editor.config.get( 'sourceEditingCodeMirror.options' ) );
-
+		var _options = editor.config.get( 'sourceEditingCodeMirror.options' );
+		var options = {};
+		Object.keys(options).forEach((key) => {
+			options[key] = _options[key];
+		})
+		const cmEditor = global.window.CodeMirror.fromTextArea( textarea, options );
 		cmEditor.on( 'change', () => {
 			textarea.value = cmEditor.getValue();
 			textarea.dispatchEvent( new global.window.Event( 'input' ) );
